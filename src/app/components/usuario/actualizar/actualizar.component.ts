@@ -13,7 +13,7 @@ import { UsuarioService } from '../../../services/usuario.service';
 export class ActualizarComponent implements OnInit {
 
   usuario: IUsuario;
-
+  estadoList: string[] = ['Activo', 'Inactivo'];
   public form: FormGroup;
 
   constructor(
@@ -23,11 +23,11 @@ export class ActualizarComponent implements OnInit {
   ) {
     this.form = this.formBuilder.group({
       id: new FormControl(''),
-      nombre: new FormControl('', Validators.required),
-      apellidos: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
+      nombre: new FormControl('', [Validators.required, Validators.maxLength(100)]),
+      apellidos: new FormControl('', [Validators.required, Validators.maxLength(100)]),
+      email: new FormControl('', [Validators.required, Validators.email, Validators.maxLength(50)]),
       estado: new FormControl('', Validators.required),
-      usuario: new FormControl('', Validators.required),
+      usuario: new FormControl('', [Validators.required, Validators.maxLength(20)]),
     });
     this.usuario = data.usuario;
   }

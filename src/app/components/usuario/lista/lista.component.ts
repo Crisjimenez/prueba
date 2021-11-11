@@ -19,7 +19,7 @@ export class ListaComponent implements OnInit {
   private listadoCompleta: IUsuario[] = [];
   public listado: IUsuario[] = [];
   public form: FormGroup;
-  displayedColumns: string[] = ['usuario', 'email', 'nombre', 'apellidos', 'acciones'];
+  displayedColumns: string[] = ['usuario', 'email', 'nombre', 'apellidos', 'estado', 'acciones'];
   
   //Paginado
   length = 500;

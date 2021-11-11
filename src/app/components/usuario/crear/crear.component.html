@@ -5,29 +5,37 @@
     <mat-form-field appearance="legacy">
         <mat-label>email</mat-label>
         <input matInput placeholder="email" formControlName="email">
-        <mat-hint>Email</mat-hint>
+        <mat-error>Email invalido</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="legacy">
         <mat-label>usuario</mat-label>
         <input matInput placeholder="usuario" formControlName="usuario">
-        <mat-hint>Usuario</mat-hint>
+        <mat-error>Longitud maxima 20 caracteres</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="legacy">
         <mat-label>nombres</mat-label>
         <input matInput placeholder="nombres" formControlName="nombre">
-        <mat-hint>Nombres</mat-hint>
+        <mat-error>Longitud maxima 100 caracteres</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="legacy">
         <mat-label>apellidos</mat-label>
         <input matInput placeholder="apellidos" formControlName="apellidos">
-        <mat-hint>Apellidos</mat-hint>
+        <mat-error>Longitud maxima 100 caracteres</mat-error>
     </mat-form-field>
+
+    <mat-form-field appearance="legacy">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="estado">
+            <mat-option *ngFor="let topping of estadoList" [value]="topping">{{topping}}</mat-option>
+        </mat-select>
+        <mat-error>El campo es requerido</mat-error>
+    </mat-form-field>
+
 
     <button mat-button color="primary" (click)="crear()">Crear</button>
     <button mat-button color="primary" (click)="cancelar()">Cancelar</button>
 
 </form>
-

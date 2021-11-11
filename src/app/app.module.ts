@@ -22,6 +22,7 @@ import { MatDialogModule} from '@angular/material/dialog';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatCardModule} from '@angular/material/card';
 import {MatNativeDateModule} from '@angular/material/core';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import {MatNativeDateModule} from '@angular/material/core';
     MatDialogModule,
     MatGridListModule,
     MatCardModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
