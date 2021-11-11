@@ -5,6 +5,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 import { CrearComponent } from '../crear/crear.component';
 import { ActualizarComponent } from '../actualizar/actualizar.component';
+import { VisualizarComponent } from '../visualizar/visualizar.component';
+import { PageEvent } from '@angular/material/paginator';
 
 
 @Component({
@@ -14,9 +16,17 @@ import { ActualizarComponent } from '../actualizar/actualizar.component';
 })
 export class ListaComponent implements OnInit {
 
+  private listadoCompleta: IUsuario[] = [];
   public listado: IUsuario[] = [];
   public form: FormGroup;
-  displayedColumns: string[] = ['usuario', 'email', 'nombres', 'apellidos', 'acciones'];
+  displayedColumns: string[] = ['usuario', 'email', 'nombre', 'apellidos', 'acciones'];
+  
+  //Paginado
+  length = 500;
+  pageSize = 10;
+  pageIndex = 0;
+  pageSizeOptions = [5, 10, 25];
+  showFirstLastButtons = true;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -24,10 +34,10 @@ export class ListaComponent implements OnInit {
     public dialog: MatDialog
   ) { 
     this.form = this.formBuilder.group({
-      nombre: new FormControl('', Validators.required),
-      apellidos: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
-      usuario: new FormControl('', Validators.required)
+      nombre: new FormControl(''),
+      apellidos: new FormControl(''),
+      email: new FormControl(''),
+      usuario: new FormControl('')
     })
   }
 
@@ -35,8 +45,18 @@ export class ListaComponent implements OnInit {
     this.consultarListaUsuarios();
   }
 
+  eventoPaginado(event: PageEvent){
+    this.length = event.length;
+    this.pageSize = event.pageSize;
+    this.pageIndex = event.pageIndex;
+    this.consultarListaUsuarios();
+    console.log(this.length);
+    console.log(this.pageSize);
+    console.log(this.pageIndex);
+  }
+
   consultarListaUsuarios(){
-    this.usuarioService.consultarUsuarios()
+    this.usuarioService.consultarUsuarios(this.pageIndex++)
       .subscribe(arg => {
         this.listado = arg;
       }, error =>{
@@ -45,8 +65,12 @@ export class ListaComponent implements OnInit {
     
   }
 
-  verUsuario(){
-
+  verUsuario(usuario: IUsuario){
+    this.dialog.open(VisualizarComponent, {
+      data: {
+      usuario
+      },
+      });
   }
 
   actualizarUsuario(usuario: IUsuario){
@@ -58,9 +82,7 @@ export class ListaComponent implements OnInit {
   }
 
   crearUsuario(){
-    this.dialog.open(CrearComponent, {
-      
-      });
+    this.dialog.open(CrearComponent, {});
   }
 
   buscar(){

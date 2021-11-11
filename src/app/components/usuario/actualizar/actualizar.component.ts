@@ -1,7 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { IUsuario } from '../../../models/usuario.model';
-import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { IData } from '../../../models/data.model';
+import { UsuarioService } from '../../../services/usuario.service';
 
 @Component({
   selector: 'app-actualizar',
@@ -16,7 +18,8 @@ export class ActualizarComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public data: IUsuario
+    @Inject(MAT_DIALOG_DATA) public data: IData,
+    private usuarioService: UsuarioService
   ) {
     this.form = this.formBuilder.group({
       id: new FormControl(''),
@@ -26,23 +29,36 @@ export class ActualizarComponent implements OnInit {
       estado: new FormControl('', Validators.required),
       usuario: new FormControl('', Validators.required),
     });
-    this.usuario = data;
-   }
+    this.usuario = data.usuario;
+  }
 
   ngOnInit(): void {
     console.log(this.data);
-    if(this.data) {
-      this.usuario = this.data;
-      this.form.get('email')?.setValue(this.usuario.email);
+    if (this.data) {
+      this.usuario = this.data.usuario;
+      this.form.patchValue(this.usuario)
+      // this.form.get('email')?.setValue(this.usuario.email);
     }
-    
+
   }
 
   crear() {
+    if (this.form.valid) {
+      this.usuario.nombre = this.form.get('nombre')?.value;
+      this.usuario.estado = this.form.get('estado')?.value;
+      this.usuario.email = this.form.get('email')?.value;
+      this.usuario.apellidos = this.form.get('apellidos')?.value;
+      this.usuario.usuario = this.form.get('usuario')?.value;
+
+      this.usuarioService.actualizarUsuarios(this.usuario)
+        .subscribe(data => {
+          console.log(data);
+        }, error => console.log(error));
+    }
 
   }
 
-  cancelar(){
-    
+  cancelar() {
+
   }
 }

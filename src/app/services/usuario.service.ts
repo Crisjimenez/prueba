@@ -12,8 +12,8 @@ export class UsuarioService {
 
   constructor(private http: HttpClient)  { }
 
-  consultarUsuarios(): Observable<IUsuario[]> {
-    return this.http.get<IUsuario[]>(this.urlBase);
+  consultarUsuarios(page: number): Observable<IUsuario[]> {
+    return this.http.get<IUsuario[]>(`${this.urlBase}?_limit=10&_page=${page}`);
   }
 
   crearUsuarios(usuario: IUsuario): Observable<IUsuario[]> {
